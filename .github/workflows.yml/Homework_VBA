@@ -1,0 +1,115 @@
+Sub Stock_final()
+
+
+
+'Worked on issues trying to get changes figured out. Ran out of ideas and to late to ask for help.
+'Used the concept of the first number and the last number seperated by x amount of days.
+'Once days figurted out set inprogram to calculate the difference.
+'Percentage was similar just used (New-old)/old and transfer to %.
+
+
+'Set names of all columns,
+Range("I1").Value = "Ticker"
+Range("J1").Value = " yearly Gain or Loss"
+Range("K1").Value = "Yearly % change"
+Range("L1").Value = "Volume Traded"
+
+
+
+  ' Set an initial variable for holding the brand name
+  Dim Ticker_Name As String
+
+  ' Set an initial variable for holding the total per credit card brand
+  Dim Ticker_Total As Double
+  
+  Ticker_Total = 0
+  
+  'set intitial % change variable
+  Dim Ticker_percent As Double
+
+  
+  
+  Ticker_percent = 0
+  
+  'set initial variable for tot. volume
+  Dim Ticker_volume As Double
+  
+  
+  Ticker_volume = 0
+
+  ' Keep track of the location for each credit card brand in the summary table
+  Dim Summary_Table_Row As Integer
+  Summary_Table_Row = 2
+
+  ' Loop through all credit card purchases
+  For i = 2 To 760192
+  
+
+    ' Check if we are still within the same credit card brand, if it is not...
+    If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+
+      ' Set the Brand name
+      Ticker_Name = Cells(i, 1).Value
+
+
+      ' Add to the Brand Total
+      Ticker_Total = Cells(i + 261, 6).Value - Cells(i, 3).Value
+      
+      
+      'Ticker percentage change
+      'Ticker_percent = (Cells(i + 261, 6).Value - Cells(i, 3).Value)
+      'Ticker_percent = Ticker_percent / Cells(i, 3).Value
+      
+      
+      'Stock Total Volume
+      Ticker_volume = Ticker_volume + Cells(i, 7).Value
+      
+
+      ' Print the Credit Card Brand in the Summary Table
+      Range("I" & Summary_Table_Row).Value = Ticker_Name
+
+      ' Print the Brand Amount to the Summary Table
+      Range("J" & Summary_Table_Row).Value = Ticker_Total
+      
+      'Print percent change to summary
+      'Range("K" & Summary_Table_Row).Value = Ticker_percent
+      
+      'Print Volume total to summary
+      Range("L" & Summary_Table_Row).Value = Ticker_volume
+
+      ' Add one to the summary table row
+      Summary_Table_Row = Summary_Table_Row + 1
+      
+      ' Reset the Brand Total
+      Brand_Total = 0
+
+    ' If the cell immediately following a row is the same brand...
+    Else
+
+      ' Add to the Brand Total
+      Ticker_Total = Cells(i, 6).Value - Cells(i, 3).Value
+      
+      ' Add to the percent change
+      'Ticker_percent = (Cells(i + 261, 6).Value - Cells(i, 3).Value)
+      'Ticker_percent = Ticker_percent / Cells(i, 3).Value
+      
+      
+      ' Add to the volume total
+      Ticker_volume = Ticker_volume + Cells(i, 7).Value
+      
+      
+
+    End If
+ 'Color cells Traded
+ 
+ 'Set positive cells green
+   If Cells(i, 10).Value > 0 Then
+    Cells(i, 10).Interior.ColorIndex = 4
+     
+   'Set negative cells red
+    Else
+         Cells(i, 10).Interior.ColorIndex = 3
+         
+    End If
+
+End Sub
